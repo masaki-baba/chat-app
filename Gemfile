@@ -8,7 +8,7 @@ gem "mysql2", "~> 0.5"
 gem "puma", "~> 5.0"
 gem "bootsnap", ">= 1.4.4", require: false
 gem "jsbundling-rails"
-gem "redis", "~> 4.0"
+gem "redis", "~> 5.4"
 gem "rack-cors"
 
 group :development, :test do
