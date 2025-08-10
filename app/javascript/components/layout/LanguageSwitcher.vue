@@ -43,29 +43,19 @@ export default {
       isOpen: false
     })
 
-    const languages = computed(() => [
-      { code: 'ja', name: t('common.language.japanese') },
-      { code: 'en', name: t('common.language.english') }
-    ])
-
-    const currentLanguage = computed(() => {
-      const current = languages.value.find(lang => lang.code === i18nState.currentLocale)
-      return current ? current : { name: 'Language', code: 'en' }
+    const languages = computed(function() {
+      return [
+        { code: 'ja', name: t('common.language.japanese') },
+        { code: 'en', name: t('common.language.english') }
+      ]
     })
 
-    /**
-     * ドロップダウンメニューの表示/非表示を切り替える
-     */
-    function toggleDropdown() {
-      state.isOpen = !state.isOpen
-    }
-
-    /**
-     * ドロップダウンメニューを閉じる
-     */
-    function closeDropdown() {
-      state.isOpen = false
-    }
+    const currentLanguage = computed(function() {
+      const current = languages.value.find(function(lang) {
+        return lang.code === i18nState.currentLocale
+      })
+      return current ? current : { name: 'Language', code: 'en' }
+    })
 
     /**
      * 言語を変更する

@@ -30,3 +30,7 @@ export default {
   }
 }
 </script>
+<style scoped>
+@import "app/assets/stylesheets/components/language-switcher.scss";
+</style>
+

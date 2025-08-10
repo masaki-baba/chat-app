@@ -1,6 +1,6 @@
-# Vue.js + Rails リアルタイムチャットアプリ
+# Vue.js + Rails LiveChattyアプリ
 
-Rails 7 (API専用) + Vue.js 3 (SPA) によるリアルタイムチャットアプリケーション
+Rails 7 (API専用) + Vue.js 3 (SPA) によるLiveChattyアプリケーション
 
 ## 技術スタック
 

@@ -11,7 +11,21 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :messages, only: [:index, :create]
+      resources :users, only: [:index, :show, :create] do
+        collection do
+          post :find_or_create
+          post :login
+          get :current_user
+          delete :logout
+        end
+      end
+      
+      resources :chat_rooms, only: [:index, :show, :create] do
+        member do
+          post :join
+        end
+        resources :messages, only: [:index, :create]
+      end
     end
   end
   

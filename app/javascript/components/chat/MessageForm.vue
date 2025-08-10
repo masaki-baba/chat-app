@@ -9,6 +9,7 @@ form.message-form(@submit.prevent="onSubmit")
   button.btn-primary(
     type="submit"
     :disabled="!state.newMessage.trim() || !currentUser"
+    @click="onSubmit"
   )
     | {{ $t('chat.send') }}
 </template>
@@ -34,6 +35,7 @@ export default {
      * メッセージ送信フォームの送信処理
      */
     function onSubmit() {
+      console.log('onSubmit')
       if (state.newMessage.trim() && props.currentUser) {
         emit('send', state.newMessage.trim())
         state.newMessage = ''

@@ -1,4 +1,4 @@
-import { reactive, onMounted, onUnmounted } from 'vue'
+import { reactive, ref } from 'vue'
 import consumer from '@/channels/consumer'
 
 export function useWebSocket(onMessageReceived) {
@@ -6,20 +6,34 @@ export function useWebSocket(onMessageReceived) {
     connected: false,
     subscription: null
   })
+
+  const currentChatRoomId = ref(null)
   
   /**
-   * WebSocket接続を開始する
+   * 特定のチャットルームに接続する
+   * @param {number} chatRoomId - チャットルームID
    */
-  function connect() {
+  function connectToChatRoom(chatRoomId) {
+    // 既存の接続があれば切断
+    if (state.subscription) {
+      disconnect()
+    }
+
+    if (!chatRoomId) return
+
+    currentChatRoomId.value = chatRoomId
+
     state.subscription = consumer.subscriptions.create('ChatChannel', {
+      chat_room_id: chatRoomId
+    }, {
       connected() {
         state.connected = true
-        console.log('Connected to ChatChannel')
+        console.log(`Connected to ChatRoom ${chatRoomId}`)
       },
       
       disconnected() {
         state.connected = false
-        console.log('Disconnected from ChatChannel')
+        console.log(`Disconnected from ChatRoom ${chatRoomId}`)
       },
       
       received(data) {
@@ -39,19 +53,24 @@ export function useWebSocket(onMessageReceived) {
       state.subscription = null
     }
     state.connected = false
+    currentChatRoomId.value = null
   }
-  
-  onMounted(function() {
-    connect()
-  })
-  
-  onUnmounted(function() {
-    disconnect()
-  })
+
+  /**
+   * チャットルームを切り替える
+   * @param {number} newChatRoomId - 新しいチャットルームID
+   */
+  function switchChatRoom(newChatRoomId) {
+    if (currentChatRoomId.value !== newChatRoomId) {
+      connectToChatRoom(newChatRoomId)
+    }
+  }
   
   return {
     state,
-    disconnect,
-    reconnect: connect
+    currentChatRoomId,
+    connectToChatRoom,
+    switchChatRoom,
+    disconnect
   }
 }

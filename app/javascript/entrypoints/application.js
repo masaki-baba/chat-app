@@ -1,8 +1,12 @@
-// Vue.js Chat Application Entry Point
-console.log('Vite ⚡️ Rails - Loading Vue.js Chat App')
+// Vue.js LiveChatty Application Entry Point
+console.log('Vite ⚡️ Rails - Loading Vue.js LiveChatty')
+
+// Import Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 // Import SCSS styles
 import '../../assets/stylesheets/application.scss'
+import '../styles/main.scss'
 
 // Import and start the Vue.js application
 import '../main.js'

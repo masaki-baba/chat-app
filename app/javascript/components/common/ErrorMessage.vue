@@ -6,8 +6,11 @@
     span {{ message }}
 </template>
 
-<script setup>
-const props = defineProps({
-  message: String
-})
+<script>
+export default {
+  name: 'ErrorMessage',
+  props: {
+    message: String
+  }
+}
 </script>

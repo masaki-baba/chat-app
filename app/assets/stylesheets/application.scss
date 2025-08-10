@@ -1,7 +1,10 @@
 /*
- * Chat Application Styles
- * SCSS styles for Vue.js + Rails Chat App
+ * LiveChatty Application Styles
+ * SCSS styles for Vue.js + Rails LiveChatty
  */
+
+// Component imports
+@import "components/language-switcher";
 
 // Base styles
 * {
@@ -221,8 +224,81 @@ body {
   gap: 1rem;
 }
 
+// 新しい時系列順メッセージリストスタイル
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  height: 100%;
+}
+
+.message-item {
+  display: flex;
+  margin-bottom: 0.5rem;
+  
+  &.message-left {
+    justify-content: flex-start;
+  }
+  
+  &.message-right {
+    justify-content: flex-end;
+  }
+}
+
+.message-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  max-width: 80%;
+  
+  &.message-wrapper-left {
+    flex-direction: row;
+  }
+  
+  &.message-wrapper-right {
+    flex-direction: row-reverse;
+  }
+}
+
+// UserAvatar コンポーネントスタイル
+.user-avatar {
+  display: inline-block;
+  
+  .avatar-circle {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    text-align: center;
+    user-select: none;
+  }
+  
+  &.avatar-small .avatar-circle {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+  
+  &.avatar-medium .avatar-circle {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  &.avatar-large .avatar-circle {
+    width: 48px;
+    height: 48px;
+    font-size: 16px;
+  }
+}
+
+// 旧スタイル（互換性のため残す）
 .message-row {
   display: flex;
+  margin-bottom: 0.5rem;
+  padding: 0 1rem;
 
   &.message-end {
     justify-content: flex-end;
@@ -234,10 +310,15 @@ body {
 }
 
 .message-bubble {
-  max-width: 20rem;
+  max-width: 70%;
+  min-width: 100px;
+
+  @media (min-width: 768px) {
+    max-width: 60%;
+  }
 
   @media (min-width: 1024px) {
-    max-width: 28rem;
+    max-width: 50%;
   }
 
   &.message-order-1 {
@@ -264,17 +345,22 @@ body {
 }
 
 .message-content {
-  padding: 1rem;
-  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  word-wrap: break-word;
+  line-height: 1.4;
 
   &.message-sent {
-    background-color: #2563eb;
+    background-color: #06c755;
     color: white;
+    border-bottom-right-radius: 0.25rem;
   }
 
   &.message-received {
-    background-color: #e5e7eb;
+    background-color: #ffffff;
     color: #1f2937;
+    border: 1px solid #e5e7eb;
+    border-bottom-left-radius: 0.25rem;
   }
 }
 
@@ -328,7 +414,7 @@ body {
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);
-
+  border-color: rgba(255, 255, 255, 0.3);
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
   }

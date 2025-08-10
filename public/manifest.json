@@ -1,7 +1,7 @@
 {
-  "name": "Vue.js Rails Chat App",
-  "short_name": "ChatApp",
-  "description": "Real-time chat application built with Vue.js and Rails",
+  "name": "LiveChatty",
+  "short_name": "LiveChatty",
+  "description": "LiveChatty - Modern chat application built with Vue.js and Rails",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
