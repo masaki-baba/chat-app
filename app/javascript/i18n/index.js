@@ -1,22 +1,22 @@
 import { createI18n } from 'vue-i18n'
-import commonEn from './locales/common.yml'
-import homeEn from './locales/home.yml'
-import chatEn from './locales/chat.yml'
-import errorEn from './locales/error.yml'
+import commonLocales from './locales/common.yml'
+import homeLocales from './locales/home.yml'
+import chatLocales from './locales/chat.yml'
+import errorLocales from './locales/error.yml'
 
-// Merge all locale files
+// Simple merge that preserves nested structure
 const messages = {
   en: {
-    common: commonEn.en,
-    home: homeEn.en,
-    chat: chatEn.en,
-    error: errorEn.en
+    ...commonLocales.en,
+    ...homeLocales.en,
+    ...chatLocales.en,
+    ...errorLocales.en
   },
   ja: {
-    common: commonEn.ja,
-    home: homeEn.ja,
-    chat: chatEn.ja,
-    error: errorEn.ja
+    ...commonLocales.ja,
+    ...homeLocales.ja,
+    ...chatLocales.ja,
+    ...errorLocales.ja
   }
 }
 

@@ -1,0 +1,12 @@
+// メインスタイルファイル - 全体のスタイルをインポート
+
+// 共通スタイル
+@import './common/common';
+
+// コンポーネントスタイル
+@import './components/chat/chat-room-list';
+@import './components/chat/new-chat-modal';
+
+// ページスタイル（今後追加予定）
+// @import './pages/chat-page';
+// @import './pages/home-page';

@@ -1,36 +1,50 @@
 <template lang="pug">
-.flex.flex-col.h-full.overflow-hidden
-  .flex-1.overflow-y-auto.p-4.space-y-4(ref="state.messagesContainer")
-    LoadingSpinner(v-if="loading" class="mx-auto")
-    .text-center.text-gray-500(v-else-if="messages.length === 0")
-      | {{ $t('chat.no_messages') }}
-    .space-y-4(v-else)
-      .flex(
-        v-for="message in messages"
-        :key="message.id"
-        :class="message.user_name === currentUser ? 'justify-end' : 'justify-start'"
+.messages-container(ref="state.messagesContainer")
+  loading-spinner(v-if="loading" class="loading-spinner")
+  .no-messages(v-else-if="messages.length === 0")
+    | {{ $t('chat.no_messages') }}
+  .messages-list(v-else)
+    .message-item(
+      v-for="message in messages"
+      :key="message.id"
+      :class="isCurrentUserMessage(message) ? 'message-right' : 'message-left'"
+    )
+      .message-wrapper(
+        :class="isCurrentUserMessage(message) ? 'message-wrapper-right' : 'message-wrapper-left'"
       )
-        .max-w-xs.lg:max-w-md(
-          :class="message.user_name === currentUser ? 'order-2' : 'order-1'"
+        user-avatar(
+          v-if="!isCurrentUserMessage(message)"
+          :user="message.user" 
+          size="medium"
         )
-          .text-xs.text-gray-500.mb-1(
-            :class="message.user_name === currentUser ? 'text-right' : 'text-left'"
+        .message-bubble(
+          :class="isCurrentUserMessage(message) ? 'message-sent' : 'message-received'"
+        )
+          .message-meta(
+            :class="isCurrentUserMessage(message) ? 'message-meta-right' : 'message-meta-left'"
           )
-            | {{ message.user_name }} • {{ message.formatted_time }}
-          .px-4.py-2.rounded-lg(
-            :class="message.user_name === currentUser ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'"
+            | {{ message.user.name }} • {{ message.formatted_time }}
+          .message-content(
+            :class="isCurrentUserMessage(message) ? 'message-sent' : 'message-received'"
           )
             | {{ message.content }}
+        user-avatar(
+          v-if="isCurrentUserMessage(message)"
+          :user="message.user" 
+          size="medium"
+        )
 </template>
 
 <script>
-import { reactive, watch, nextTick } from 'vue'
+import { reactive, watch, nextTick, computed } from 'vue'
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
+import UserAvatar from '@/components/common/UserAvatar.vue'
 
 export default {
   name: 'MessageList',
   components: {
-    LoadingSpinner
+    LoadingSpinner,
+    UserAvatar
   },
   props: {
     messages: {
@@ -42,8 +56,8 @@ export default {
       default: false
     },
     currentUser: {
-      type: String,
-      default: ''
+      type: [String, Object],
+      default: null
     }
   },
   setup(props) {
@@ -65,8 +79,37 @@ export default {
       scrollToBottom()
     }, { deep: true })
 
+    /**
+     * メッセージが現在のユーザーのものかどうかを判定（user_idベース）
+     * @param {Object} message - メッセージオブジェクト
+     * @returns {boolean} 現在のユーザーのメッセージかどうか
+     */
+    function isCurrentUserMessage(message) {
+      if (!props.currentUser || !message || !message.user || !message.user.id) {
+        return false
+      }
+      
+      // currentUserがオブジェクトの場合はidを、文字列の場合は直接比較
+      const currentUserId = typeof props.currentUser === 'object' 
+        ? props.currentUser.id 
+        : props.currentUser
+      
+      return message.user.id === currentUserId
+    }
+
+    // 時系列順のメッセージリスト（フィルタリング不要、テンプレートで条件分岐）
+    // props.messagesを直接使用
+
+    // メッセージ変更時の自動スクロール
+    watch(() => props.messages, function() {
+      if (props.messages.length > 0) {
+        scrollToBottom()
+      }
+    }, { deep: true })
+
     return {
-      state
+      state,
+      isCurrentUserMessage
     }
   }
 }

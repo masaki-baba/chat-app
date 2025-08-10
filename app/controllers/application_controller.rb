@@ -1,7 +1,8 @@
-class ApplicationController < ActionController::API
-  include ActionController::Cookies
+class ApplicationController < ActionController::Base
+  # Disable CSRF protection for API endpoints
+  protect_from_forgery with: :null_session
   
   def fallback_index_html
-    render file: 'public/index.html'
+    render 'layouts/application'
   end
 end

@@ -1,7 +1,10 @@
 # Be sure to restart your server when you modify this file.
 
+# Assets configuration is not available in API mode
+# The following configurations are commented out for API-only Rails applications
+
 # Version of your assets, change this if you want to expire all your assets.
-Rails.application.config.assets.version = "1.0"
+# Rails.application.config.assets.version = "1.0"
 
 # Add additional assets to the asset load path.
 # Rails.application.config.assets.paths << Emoji.images_path

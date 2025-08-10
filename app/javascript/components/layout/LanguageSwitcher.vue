@@ -1,26 +1,34 @@
 <template lang="pug">
-.relative
-  button(
-    @click="toggleDropdown"
-    class="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition duration-200"
+.language-switcher
+  button.language-button(
+    @click="state.isOpen = !state.isOpen"
+    ref="state.buttonRef"
   )
-    span {{ currentLanguageLabel }}
-    svg.w-4.h-4(fill="currentColor" viewBox="0 0 20 20")
-      path(fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd")
-  
-  .absolute.right-0.mt-2.w-48.bg-white.rounded-md.shadow-lg.border(
-    v-show="state.isOpen"
-    @click="closeDropdown"
-  )
-    .py-1
-      button(
-        v-for="lang in languages"
-        :key="lang.code"
-        @click="changeLanguage(lang.code)"
-        class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-        :class="{ 'bg-blue-50 text-blue-600': i18nState.currentLocale === lang.code }"
+    span {{ currentLanguage.name }}
+    svg(
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      style="width: 1rem; height: 1rem;"
+    )
+      path(
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 9l-7 7-7-7"
       )
-        | {{ lang.label }}
+  
+  .language-dropdown(
+    v-show="state.isOpen"
+    ref="state.dropdownRef"
+  )
+    button.language-option(
+      v-for="language in languages"
+      :key="language.code"
+      @click="onChangeLanguage(language.code)"
+    )
+      | {{ language.name }}
 </template>
 
 <script>
@@ -35,27 +43,26 @@ export default {
       isOpen: false
     })
 
-    const languages = computed(() => [
-      { code: 'ja', label: t('common.language.japanese') },
-      { code: 'en', label: t('common.language.english') }
-    ])
+    const languages = computed(function() {
+      return [
+        { code: 'ja', name: t('common.language.japanese') },
+        { code: 'en', name: t('common.language.english') }
+      ]
+    })
 
-    const currentLanguageLabel = computed(() => {
-      const current = languages.value.find(lang => lang.code === i18nState.currentLocale)
-      return current ? current.label : 'Language'
+    const currentLanguage = computed(function() {
+      const current = languages.value.find(function(lang) {
+        return lang.code === i18nState.currentLocale
+      })
+      return current ? current : { name: 'Language', code: 'en' }
     })
 
     /**
-     * ドロップダウンメニューの表示/非表示を切り替える
+     * 言語を変更する
+     * @param {string} languageCode - 言語コード
      */
-    function toggleDropdown() {
-      state.isOpen = !state.isOpen
-    }
-
-    /**
-     * ドロップダウンメニューを閉じる
-     */
-    function closeDropdown() {
+    function onChangeLanguage(languageCode) {
+      changeLanguage(languageCode)
       state.isOpen = false
     }
 
@@ -64,8 +71,8 @@ export default {
      * @param {Event} event - クリックイベント
      */
     function onClickOutside(event) {
-      if (!event.target.closest('.relative')) {
-        closeDropdown()
+      if (!event.target.closest('.language-switcher')) {
+        state.isOpen = false
       }
     }
 
@@ -81,10 +88,8 @@ export default {
       state,
       i18nState,
       languages,
-      currentLanguageLabel,
-      toggleDropdown,
-      closeDropdown,
-      changeLanguage
+      currentLanguage,
+      onChangeLanguage
     }
   }
 }

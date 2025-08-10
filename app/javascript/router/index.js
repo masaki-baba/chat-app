@@ -10,9 +10,10 @@ const routes = [
     component: HomePage
   },
   {
-    path: '/chat',
+    path: '/chat/:userId',
     name: 'Chat',
-    component: ChatPage
+    component: ChatPage,
+    props: true
   },
   {
     path: '/:pathMatch(.*)*',

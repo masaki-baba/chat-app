@@ -1,18 +1,14 @@
 <template lang="pug">
-header.bg-white.shadow-sm.border-b
-  .container.mx-auto.px-4
-    .flex.items-center.justify-between.h-16
-      router-link(
-        to="/" 
-        class="text-xl font-bold text-blue-600"
-      )
+header.app-header
+  .header-container
+    .header-nav
+      router-link.app-title(to="/")
         | {{ $t('common.app.title') }}
       
-      nav.flex.items-center.space-x-6
-        router-link(
+      nav.nav-links
+        router-link.nav-link(
           to="/" 
-          class="text-gray-600 hover:text-blue-600 transition duration-200"
-          :class="{ 'text-blue-600': $route.name === 'Home' }"
+          :class="{ 'nav-link-active': $route.name === 'Home' }"
         )
           | {{ $t('common.nav.home') }}
         router-link(
@@ -34,3 +30,7 @@ export default {
   }
 }
 </script>
+<style scoped>
+@import "app/assets/stylesheets/components/language-switcher.scss";
+</style>
+

@@ -1,0 +1,219 @@
+// 共通変数
+:root {
+  --primary-color: #00b900;
+  --primary-hover: #009900;
+  --border-color: #e1e8ed;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --text-muted: #999;
+  --background-white: #ffffff;
+  --background-hover: #f8f9fa;
+  --background-active: #e3f2fd;
+  --error-color: #e53e3e;
+  --success-color: #00b900;
+  --border-radius: 6px;
+  --border-radius-large: 12px;
+  --border-radius-pill: 20px;
+}
+
+// 共通ボタンスタイル
+.btn {
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: var(--border-radius);
+  transition: background-color 0.2s;
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.btn-primary {
+  @extend .btn;
+  background: var(--primary-color);
+  color: white;
+  padding: 8px 12px;
+  
+  &:hover:not(:disabled) {
+    background: var(--primary-hover);
+  }
+}
+
+.btn-large {
+  padding: 12px 16px;
+  font-size: 16px;
+}
+
+// 共通フォームスタイル
+.form-input, .form-textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  outline: none;
+  font-family: inherit;
+  
+  &:focus {
+    border-color: var(--primary-color);
+  }
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+  
+  label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+}
+
+// 共通アバタースタイル
+.avatar-circle {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  
+  &.direct {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  &.group {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  }
+}
+
+// 共通ローディング・エラースタイル
+.loading, .error {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.error {
+  color: var(--error-color);
+}
+
+// 共通レイアウトユーティリティ
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.gap-4 {
+  gap: 4px;
+}
+
+.gap-8 {
+  gap: 8px;
+}
+
+.gap-12 {
+  gap: 12px;
+}
+
+// 共通テキストスタイル
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+// 共通モーダルスタイル
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--background-white);
+  border-radius: var(--border-radius-large);
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color);
+  
+  h3 {
+    margin: 0;
+    color: var(--text-primary);
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
+}
+
+.modal-body {
+  padding: 20px;
+}
