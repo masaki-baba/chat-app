@@ -1,7 +1,7 @@
 <template lang="pug">
-.min-h-screen.bg-gray-50
+.app-layout
   AppHeader
-  main.container.mx-auto.px-4.py-8
+  main.main-content
     slot
 </template>
 

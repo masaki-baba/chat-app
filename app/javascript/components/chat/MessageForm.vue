@@ -1,20 +1,16 @@
 <template lang="pug">
-.p-4.bg-gray-50
-  form.flex.space-x-4(@submit.prevent="onSubmit")
-    input(
-      v-model="state.messageContent"
-      type="text"
-      :placeholder="$t('chat.message_placeholder')"
-      class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      :disabled="!currentUser"
-      maxlength="1000"
-    )
-    button(
-      type="submit"
-      class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 disabled:bg-gray-400"
-      :disabled="!state.messageContent.trim() || !currentUser"
-    )
-      | {{ $t('chat.send_button') }}
+form.message-form(@submit.prevent="onSubmit")
+  input.message-input(
+    v-model="state.newMessage"
+    type="text"
+    :placeholder="$t('chat.message_placeholder')"
+    :disabled="!currentUser"
+  )
+  button.btn-primary(
+    type="submit"
+    :disabled="!state.newMessage.trim() || !currentUser"
+  )
+    | {{ $t('chat.send') }}
 </template>
 
 <script>
@@ -31,16 +27,16 @@ export default {
   emits: ['send'],
   setup(props, { emit }) {
     const state = reactive({
-      messageContent: ''
+      newMessage: ''
     })
 
     /**
      * メッセージ送信フォームの送信処理
      */
     function onSubmit() {
-      if (state.messageContent.trim() && props.currentUser) {
-        emit('send', state.messageContent.trim())
-        state.messageContent = ''
+      if (state.newMessage.trim() && props.currentUser) {
+        emit('send', state.newMessage.trim())
+        state.newMessage = ''
       }
     }
 

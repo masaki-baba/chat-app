@@ -1,26 +1,25 @@
 <template lang="pug">
-.flex.flex-col.h-full.overflow-hidden
-  .flex-1.overflow-y-auto.p-4.space-y-4(ref="state.messagesContainer")
-    LoadingSpinner(v-if="loading" class="mx-auto")
-    .text-center.text-gray-500(v-else-if="messages.length === 0")
-      | {{ $t('chat.no_messages') }}
-    .space-y-4(v-else)
-      .flex(
-        v-for="message in messages"
-        :key="message.id"
-        :class="message.user_name === currentUser ? 'justify-end' : 'justify-start'"
+.messages-container(ref="state.messagesContainer")
+  LoadingSpinner(v-if="loading" class="loading-spinner")
+  .no-messages(v-else-if="messages.length === 0")
+    | {{ $t('chat.no_messages') }}
+  div(v-else)
+    .message-row(
+      v-for="message in messages"
+      :key="message.id"
+      :class="message.user_name === currentUser ? 'message-end' : 'message-start'"
+    )
+      .message-bubble(
+        :class="message.user_name === currentUser ? 'message-order-2' : 'message-order-1'"
       )
-        .max-w-xs.lg:max-w-md(
-          :class="message.user_name === currentUser ? 'order-2' : 'order-1'"
+        .message-meta(
+          :class="message.user_name === currentUser ? 'message-meta-right' : 'message-meta-left'"
         )
-          .text-xs.text-gray-500.mb-1(
-            :class="message.user_name === currentUser ? 'text-right' : 'text-left'"
-          )
-            | {{ message.user_name }} • {{ message.formatted_time }}
-          .px-4.py-2.rounded-lg(
-            :class="message.user_name === currentUser ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'"
-          )
-            | {{ message.content }}
+          | {{ message.user_name }} • {{ message.formatted_time }}
+        .message-content(
+          :class="message.user_name === currentUser ? 'message-sent' : 'message-received'"
+        )
+          | {{ message.content }}
 </template>
 
 <script>

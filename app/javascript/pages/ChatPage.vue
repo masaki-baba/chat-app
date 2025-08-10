@@ -1,42 +1,31 @@
 <template lang="pug">
-.flex.flex-col.h-[90vh].max-w-4xl.mx-auto.bg-white.rounded-lg.shadow-lg.overflow-hidden
-  .bg-blue-600.text-white.p-4.flex.items-center.justify-between
-    h1.text-xl.font-semibold
+.chat-container
+  .header
+    h1.header-title
       | {{ $t('chat.title') }}
-    .flex.items-center.space-x-2
-      .w-3.h-3.rounded-full(:class="wsState.connected ? 'bg-green-400' : 'bg-red-400'")
-      span.text-sm
-        | {{ wsState.connected ? $t('chat.connected') : $t('chat.connection_lost') }}
+    LanguageSwitcher
   
-  .flex-1.flex
-    .flex-1.flex.flex-col
-      MessageList(
-        :messages="messagesState.messages"
-        :loading="messagesState.loading"
-        :current-user="state.currentUser"
-        class="flex-1"
-      )
-      
-      MessageForm(
-        :current-user="state.currentUser"
-        @send="onSendMessage"
-        class="border-t"
-      )
+  ChatRoom(
+    :messages="messagesState.messages"
+    :loading="messagesState.loading"
+    :current-user="state.currentUser"
+    @send="onSendMessage"
+  )
 </template>
 
 <script>
 import { reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import MessageList from '@/components/chat/MessageList.vue'
-import MessageForm from '@/components/chat/MessageForm.vue'
+import ChatRoom from '@/components/chat/ChatRoom.vue'
+import LanguageSwitcher from '@/components/layout/LanguageSwitcher.vue'
 import { useMessages } from '@/composables/useMessages'
 import { useWebSocket } from '@/composables/useWebSocket'
 
 export default {
   name: 'ChatPage',
   components: {
-    MessageList,
-    MessageForm
+    ChatRoom,
+    LanguageSwitcher
   },
   setup() {
     const router = useRouter()

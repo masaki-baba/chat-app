@@ -85,6 +85,32 @@ npm run test
 2. チャットルームに参加
 3. リアルタイムでメッセージを送受信
 
+## データベース管理
+
+### Sequel Ace接続情報
+
+MySQLデータベースをGUIで管理するために、Sequel Aceを使用できます。
+
+**インストール:**
+```bash
+# Sequel Aceをインストール
+brew install --cask sequel-ace
+```
+
+**接続設定:**
+- **接続タイプ**: Standard
+- **ホスト**: localhost (または 127.0.0.1)
+- **ユーザー名**: root
+- **パスワード**: (空白)
+- **データベース**: chat_app_development
+- **ポート**: 3306
+
+**接続手順:**
+1. Sequel Aceを起動
+2. 新しい接続を作成
+3. 上記の設定を入力
+4. 「接続」をクリック
+
 ## 開発
 
 - Vue.js コンポーネントは `app/javascript/components/` に配置

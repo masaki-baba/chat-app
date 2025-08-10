@@ -1,27 +1,15 @@
 <template lang="pug">
-.flex.flex-col.h-[90vh].max-w-4xl.mx-auto.bg-white.rounded-lg.shadow-lg.overflow-hidden
-  .bg-blue-600.text-white.p-4.flex.items-center.justify-between
-    h1.text-xl.font-semibold
-      | {{ $t('chat.title') }}
-    .flex.items-center.space-x-2
-      .w-3.h-3.rounded-full(:class="wsState.connected ? 'bg-green-400' : 'bg-red-400'")
-      span.text-sm
-        | {{ wsState.connected ? $t('chat.connected') : $t('chat.connection_lost') }}
+.chat-container
+  MessageList(
+    :messages="messages"
+    :loading="loading"
+    :current-user="currentUser"
+  )
   
-  .flex-1.flex
-    .flex-1.flex.flex-col
-      MessageList(
-        :messages="messagesState.messages"
-        :loading="messagesState.loading"
-        :current-user="currentUser"
-        class="flex-1"
-      )
-      
-      MessageForm(
-        :current-user="currentUser"
-        @send="onSendMessage"
-        class="border-t"
-      )
+  MessageForm(
+    :current-user="currentUser"
+    @send="onSendMessage"
+  )
 </template>
 
 <script>
@@ -38,6 +26,14 @@ export default {
     MessageForm
   },
   props: {
+    messages: {
+      type: Array,
+      default: () => []
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    },
     currentUser: {
       type: String,
       required: true
