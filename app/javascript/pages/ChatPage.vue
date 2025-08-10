@@ -13,11 +13,14 @@
   .app-content
     .sidebar(:class="{ 'mobile-hidden': selectedChatRoom && isMobile }")
       chat-room-list(
+        v-if="authState && authState.user && authState.user.name"
         :selected-room-id="selectedChatRoom?.id"
-        :current-user="authState?.user?.name"
+        :current-user="authState.user.name"
         @room-selected="onRoomSelected"
         @room-created="onRoomCreated"
       )
+      .loading-state(v-else)
+        | {{ $t('common.loading') }}
     
     .main-content(:class="{ 'mobile-hidden': !selectedChatRoom && isMobile }")
       chat-room(
@@ -100,19 +103,31 @@ export default {
       // URLパラメータからユーザーIDを取得
       const urlUserId = props.userId
       
-      // 認証状態を初期化
-      await initializeAuth()
-      
-      // 現在認証されているユーザーのIDとURLのユーザーIDを比較
-      if (!authState.isAuthenticated || authState.user?.id?.toString() !== urlUserId) {
-        // 認証されていないか、URLのユーザーIDと一致しない場合はホーム画面にリダイレクト
+      try {
+        // 認証状態を初期化
+        await initializeAuth()
+        
+        // 認証状態の確認
+        if (!authState.isAuthenticated || !authState.user) {
+          router.push('/')
+          return
+        }
+        
+        // ユーザーIDの比較（文字列として比較）
+        const currentUserId = authState.user.id?.toString()
+        
+        if (currentUserId !== urlUserId) {
+          router.push('/')
+          return
+        }
+        
+        // 画面サイズの監視を開始
+        handleResize()
+        window.addEventListener('resize', handleResize)
+        
+      } catch (error) {
         router.push('/')
-        return
       }
-      
-      // 画面サイズの監視を開始
-      handleResize()
-      window.addEventListener('resize', handleResize)
     })
 
     onUnmounted(() => {

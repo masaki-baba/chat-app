@@ -35,7 +35,7 @@ export default {
      * メッセージ送信フォームの送信処理
      */
     function onSubmit() {
-      console.log('onSubmit')
+
       if (state.newMessage.trim() && props.currentUser) {
         emit('send', state.newMessage.trim())
         state.newMessage = ''

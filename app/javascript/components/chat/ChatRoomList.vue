@@ -152,8 +152,16 @@ export default {
     }
 
     onMounted(async function() {
-      setCurrentUser(props.currentUser)
-      await fetchChatRooms()
+      if (!props.currentUser) {
+        return
+      }
+      
+      try {
+        setCurrentUser(props.currentUser)
+        await fetchChatRooms()
+      } catch (error) {
+        // エラーハンドリング
+      }
     })
 
     return {

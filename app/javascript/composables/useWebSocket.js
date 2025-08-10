@@ -28,12 +28,12 @@ export function useWebSocket(onMessageReceived) {
     }, {
       connected() {
         state.connected = true
-        console.log(`Connected to ChatRoom ${chatRoomId}`)
+
       },
       
       disconnected() {
         state.connected = false
-        console.log(`Disconnected from ChatRoom ${chatRoomId}`)
+
       },
       
       received(data) {

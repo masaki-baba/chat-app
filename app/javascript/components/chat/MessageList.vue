@@ -86,12 +86,6 @@ export default {
      */
     function isCurrentUserMessage(message) {
       if (!props.currentUser || !message || !message.user || !message.user.id) {
-        console.log('isCurrentUserMessage: missing data', {
-          hasCurrentUser: !!props.currentUser,
-          hasMessage: !!message,
-          hasMessageUser: !!(message && message.user),
-          hasMessageUserId: !!(message && message.user && message.user.id)
-        })
         return false
       }
       
@@ -100,35 +94,18 @@ export default {
         ? props.currentUser.id 
         : props.currentUser
       
-      const result = message.user.id === currentUserId
-      
-      // 詳細デバッグログ
-      console.log('isCurrentUserMessage detailed (user_id based):', {
-        messageUserId: message.user.id,
-        messageUserName: message.user.name,
-        currentUserId: currentUserId,
-        currentUser: props.currentUser,
-        isCurrentUser: result,
-        messageId: message.id
-      })
-      
-      return result
+      return message.user.id === currentUserId
     }
 
     // 時系列順のメッセージリスト（フィルタリング不要、テンプレートで条件分岐）
     // props.messagesを直接使用
 
-    // デバッグ用: currentUserとメッセージの比較を確認
-    watch(() => [props.currentUser, props.messages], function() {
-      console.log('MessageList Debug:', {
-        currentUser: props.currentUser,
-        messagesCount: props.messages.length,
-        firstMessage: props.messages[0] ? {
-          user_name: props.messages[0].user_name,
-          isCurrentUser: isCurrentUserMessage(props.messages[0])
-        } : null
-      })
-    }, { deep: true, immediate: true })
+    // メッセージ変更時の自動スクロール
+    watch(() => props.messages, function() {
+      if (props.messages.length > 0) {
+        scrollToBottom()
+      }
+    }, { deep: true })
 
     return {
       state,
