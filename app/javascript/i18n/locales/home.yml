@@ -1,0 +1,15 @@
+en:
+  welcome: "Welcome to Real-time Chat"
+  subtitle: "Connect with others in real-time"
+  username_label: "Your Name"
+  username_placeholder: "Enter your name"
+  join_chat: "Join Chat"
+  username_required: "Please enter your name"
+
+ja:
+  welcome: "リアルタイムチャットへようこそ"
+  subtitle: "他のユーザーとリアルタイムでつながろう"
+  username_label: "お名前"
+  username_placeholder: "お名前を入力してください"
+  join_chat: "チャットに参加"
+  username_required: "お名前を入力してください"

@@ -1,0 +1,17 @@
+en:
+  not_found:
+    title: "Page Not Found"
+    message: "The page you're looking for doesn't exist."
+    go_home: "Go Home"
+  connection_error: "Connection Error"
+  send_failed: "Failed to send message"
+  load_failed: "Failed to load messages"
+
+ja:
+  not_found:
+    title: "ページが見つかりません"
+    message: "お探しのページは存在しません。"
+    go_home: "ホームに戻る"
+  connection_error: "接続エラー"
+  send_failed: "メッセージの送信に失敗しました"
+  load_failed: "メッセージの読み込みに失敗しました"

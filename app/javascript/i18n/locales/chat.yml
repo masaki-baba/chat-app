@@ -1,0 +1,23 @@
+en:
+  title: "Chat Room"
+  message_placeholder: "Type a message..."
+  send_button: "Send"
+  user_joined: "{user} joined the room"
+  user_left: "{user} left the room"
+  online_users: "Online Users"
+  no_messages: "No messages yet. Start the conversation!"
+  message_sent: "Message sent"
+  connection_lost: "Connection lost. Trying to reconnect..."
+  connected: "Connected"
+
+ja:
+  title: "チャットルーム"
+  message_placeholder: "メッセージを入力..."
+  send_button: "送信"
+  user_joined: "{user}さんが参加しました"
+  user_left: "{user}さんが退出しました"
+  online_users: "オンラインユーザー"
+  no_messages: "まだメッセージがありません。会話を始めましょう！"
+  message_sent: "メッセージを送信しました"
+  connection_lost: "接続が切断されました。再接続中..."
+  connected: "接続済み"
