@@ -8,7 +8,16 @@ import fs from 'fs'
 export default defineConfig({
   plugins: [
     RubyPlugin(),
-    vue(),
+    vue({
+      template: {
+        preprocessOptions: {
+          pug: {
+            doctype: 'html',
+            pretty: true
+          }
+        }
+      }
+    }),
     {
       name: 'yaml-loader',
       transform(code, id) {
@@ -21,7 +30,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./app/javascript', import.meta.url))
+      '@': fileURLToPath(new URL('./app/javascript', import.meta.url)),
+      '~': fileURLToPath(new URL('./app/assets', import.meta.url))
     }
   },
   server: {

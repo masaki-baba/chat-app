@@ -1,55 +1,94 @@
 <template lang="pug">
-.flex.flex-col.items-center.justify-center.min-h-[80vh].p-8
-  .max-w-md.w-full.bg-white.rounded-lg.shadow-md.p-8
-    h1.text-3xl.font-bold.text-center.text-gray-800.mb-2
+.page-container
+  .card
+    h1.title-large
       | {{ $t('home.welcome') }}
-    p.text-gray-600.text-center.mb-8
+    p.subtitle
       | {{ $t('home.subtitle') }}
     
-    form(@submit.prevent="onJoinChat" class="space-y-4")
-      div
-        label(for="username" class="block text-sm font-medium text-gray-700 mb-2")
+    form.form-container(@submit.prevent="onJoinChat")
+      .form-group
+        label.form-label(for="username")
           | {{ $t('home.username_label') }}
-        input#username(
+        input#username.form-input(
           v-model="state.username"
           type="text"
           :placeholder="$t('home.username_placeholder')"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          :disabled="state.loading"
           required
         )
       
-      button(
+      .form-group
+        label.form-label(for="email")
+          | {{ $t('home.email_label') }}
+        input#email.form-input(
+          v-model="state.email"
+          type="email"
+          :placeholder="$t('home.email_placeholder')"
+          :disabled="state.loading"
+          required
+        )
+      
+      .error-message(v-if="state.error")
+        | {{ state.error }}
+      
+      button.btn-primary.btn-full(
         type="submit"
-        class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
-        :disabled="!state.username.trim()"
+        :disabled="!state.username.trim() || !state.email.trim() || state.loading"
       )
-        | {{ $t('home.join_chat') }}
+        span(v-if="state.loading")
+          | {{ $t('common.loading') }}...
+        span(v-else)
+          | {{ $t('home.join_chat') }}
 </template>
 
 <script>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuth } from '../composables/useAuth'
 
 export default {
   name: 'HomePage',
   setup() {
     const router = useRouter()
+    const { state: authState, login } = useAuth()
+    
     const state = reactive({
-      username: ''
+      username: '',
+      email: '',
+      loading: false,
+      error: null
     })
 
     /**
      * チャットルームに参加する
      */
-    function onJoinChat() {
-      if (state.username.trim()) {
-        localStorage.setItem('username', state.username.trim())
-        router.push('/chat')
+    async function onJoinChat() {
+      if (!state.username.trim() || !state.email.trim()) return
+
+      state.loading = true
+      state.error = null
+
+      try {
+        // サーバー側でユーザーを作成/ログイン
+        const user = await login({
+          name: state.username.trim(),
+          email: state.email.trim()
+        })
+        
+        // ログイン成功後、ユーザーIDを含むチャット画面に遷移
+        router.push(`/chat/${user.id}`)
+      } catch (error) {
+        console.error('Failed to join chat:', error)
+        state.error = 'ログインに失敗しました。もう一度お試しください。'
+      } finally {
+        state.loading = false
       }
     }
 
     return {
       state,
+      authState,
       onJoinChat
     }
   }

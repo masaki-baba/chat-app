@@ -1,29 +1,47 @@
 en:
-  app:
-    title: "Real-time Chat"
+  common:
     loading: "Loading..."
-  nav:
-    home: "Home"
-    chat: "Chat"
-  button:
-    submit: "Submit"
-    cancel: "Cancel"
-    send: "Send"
-  language:
-    english: "English"
-    japanese: "Japanese"
+    error: "An error occurred"
+    retry: "Retry"
+    close: "Close"
+    app:
+      title: "LiveChatty"
+      loading: "Loading..."
+    nav:
+      home: "Home"
+      chat: "Chat"
+    button:
+      submit: "Submit"
+      cancel: "Cancel"
+      send: "Send"
+    language:
+      english: "English"
+      japanese: "Japanese"
+  user:
+    online: "Online"
+    offline: "Offline"
+    lastSeen: "Last seen"
 
 ja:
-  app:
-    title: "リアルタイムチャット"
+  common:
     loading: "読み込み中..."
-  nav:
-    home: "ホーム"
-    chat: "チャット"
-  button:
-    submit: "送信"
-    cancel: "キャンセル"
-    send: "送信"
-  language:
-    english: "英語"
-    japanese: "日本語"
+    error: "エラーが発生しました"
+    retry: "再試行"
+    close: "閉じる"
+    app:
+      title: "LiveChatty"
+      loading: "読み込み中..."
+    nav:
+      home: "ホーム"
+      chat: "チャット"
+    button:
+      submit: "送信"
+      cancel: "キャンセル"
+      send: "送信"
+    language:
+      english: "英語"
+      japanese: "日本語"
+  user:
+    online: "オンライン"
+    offline: "オフライン"
+    lastSeen: "最終接続"

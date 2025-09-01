@@ -5,7 +5,7 @@ ruby "3.1.4"
 
 gem "rails", "~> 7.1.0"
 gem "mysql2", "~> 0.5"
-gem "puma", "~> 5.0"
+gem "puma", "~> 6.0"
 gem "bootsnap", ">= 1.4.4", require: false
 gem "jsbundling-rails"
 gem "redis", "~> 5.4"
