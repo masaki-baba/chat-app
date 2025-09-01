@@ -22,6 +22,7 @@ class Api::V1::MessagesController < ApplicationController
           id: @message.id,
           content: @message.content,
           message_type: @message.message_type,
+          chat_room_id: @chat_room.id,
           user: {
             id: @message.user.id,
             name: @message.user.name

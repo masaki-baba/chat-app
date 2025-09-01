@@ -17,36 +17,42 @@ export function useMessages() {
    * @returns {Promise<void>}
    */
   async function fetchMessages(chatRoomId) {
-    if (!chatRoomId || !authState.user) return
+    console.log(`Starting to fetch messages for chat room ${chatRoomId}`)
+    
+    if (!chatRoomId) {
+      console.warn('No chat room ID provided for message fetch')
+      return []
+    }
+
+    // 現在のチャットルームIDを設定
+    currentChatRoom.value = chatRoomId
+    console.log(`Set current chat room to: ${chatRoomId}`)
 
     state.loading = true
     state.error = null
-    
-    try {
-      const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
-      const headers = {
-        'Content-Type': 'application/json'
-      }
-      
-      if (csrfToken) {
-        headers['X-CSRF-Token'] = csrfToken
-      }
 
+    try {
       const response = await fetch(`/api/v1/chat_rooms/${chatRoomId}/messages`, {
-        headers: headers,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         credentials: 'include'
       })
 
       if (!response.ok) {
-        throw new Error('Failed to fetch messages')
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      const messages = await response.json()
-      state.messages = messages
-      currentChatRoom.value = chatRoomId
+      const data = await response.json()
+      console.log(`Successfully fetched ${data.length} messages for chat room ${chatRoomId}`)
+      
+      state.messages = data
+      return data
     } catch (err) {
+      console.error('Error fetching messages:', err)
       state.error = err.message
-      console.error('Failed to fetch messages:', err)
+      throw err
     } finally {
       state.loading = false
     }
@@ -106,10 +112,21 @@ export function useMessages() {
    * @param {Object} message
    */
   function addMessage(message) {
+    console.log('Adding message:', message, 'Current chat room:', currentChatRoom.value)
+    
+    // 現在のチャットルームのメッセージかチェック
+    if (currentChatRoom.value && message.chat_room_id !== currentChatRoom.value) {
+      console.log('Message is not for current chat room, ignoring')
+      return
+    }
+    
     // 重複チェック
     const exists = state.messages.some(m => m.id === message.id)
     if (!exists) {
+      console.log('Message added to list')
       state.messages.push(message)
+    } else {
+      console.log('Message already exists, skipping')
     }
   }
 

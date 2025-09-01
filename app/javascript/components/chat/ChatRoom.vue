@@ -82,6 +82,8 @@ export default {
      * @param {Object} message - 受信したメッセージオブジェクト
      */
     function onNewMessage(message) {
+      console.log('ChatRoom.vue onNewMessage called with:', message)
+      console.log('Current chatRoom prop:', props.chatRoom)
       addMessage(message)
     }
 
@@ -124,14 +126,30 @@ export default {
     // チャットルームが変更された時の処理
     watch(() => props.chatRoom, async (newChatRoom, oldChatRoom) => {
       if (newChatRoom?.id !== oldChatRoom?.id) {
+        console.log('Chat room changed:', { newId: newChatRoom?.id, oldId: oldChatRoom?.id })
         clearMessages()
         
         if (newChatRoom) {
-          // 新しいチャットルームに接続
-          connectToChatRoom(newChatRoom.id)
-          await fetchMessages(newChatRoom.id)
+          // まずメッセージを取得（即座に表示）
+          try {
+            console.log(`Fetching messages for chat room ${newChatRoom.id}`)
+            await fetchMessages(newChatRoom.id)
+            console.log(`Successfully fetched messages for chat room ${newChatRoom.id}`)
+          } catch (error) {
+            console.error('Failed to fetch messages:', error)
+          }
+          
+          // その後WebSocket接続を確立（リアルタイム通信用）
+          try {
+            console.log(`Connecting to chat room ${newChatRoom.id}`)
+            await connectToChatRoom(newChatRoom.id)
+            console.log(`Successfully connected to chat room ${newChatRoom.id}`)
+          } catch (error) {
+            console.warn('WebSocket connection failed:', error)
+          }
         } else {
           // チャットルームが選択解除された場合
+          console.log('Disconnecting from WebSocket')
           disconnect()
         }
       }

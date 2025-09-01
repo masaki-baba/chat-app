@@ -1,11 +1,11 @@
 // メインスタイルファイル - 全体のスタイルをインポート
 
 // 共通スタイル
-@import './common/common';
+@use './common/common';
 
 // コンポーネントスタイル
-@import './components/chat/chat-room-list';
-@import './components/chat/new-chat-modal';
+@use './components/chat/chat-room-list';
+@use './components/chat/new-chat-modal';
 
 // ページスタイル（今後追加予定）
 // @import './pages/chat-page';
