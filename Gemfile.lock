@@ -185,7 +185,7 @@ GEM
       date
       stringio
     public_suffix (6.0.2)
-    puma (6.6.1)
+    puma (7.0.0)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.0)
@@ -237,7 +237,10 @@ GEM
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
-    redis (4.8.1)
+    redis (5.4.1)
+      redis-client (>= 0.22.0)
+    redis-client (0.25.2)
+      connection_pool
     regexp_parser (2.11.1)
     reline (0.6.2)
       io-console (~> 0.5)
@@ -311,10 +314,10 @@ DEPENDENCIES
   jsbundling-rails
   listen (~> 3.3)
   mysql2 (~> 0.5)
-  puma (~> 6.0)
+  puma (~> 7.0)
   rack-cors
   rails (~> 7.1.0)
-  redis (~> 4.0)
+  redis (~> 5.4)
   rspec-rails
   selenium-webdriver
   spring
